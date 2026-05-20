@@ -274,7 +274,7 @@ const Posts = () => {
                     {posts.map((post) => (
                       <tr key={post.id} className="hover:bg-slate-50">
                         <td className="px-6 py-4 align-top text-sm text-white max-w-xl wrap-break-word bg-gray-600">{post.title}</td>
-                        <td className="px-6 py-4 align-top text-sm text-white max-w-2xl wrap-break-word bg-gray-600">{post.description}</td>
+                        <td className="px-6 py-4 align-top text-sm text-white max-w-2xl wrap-break-word bg-gray-600">{post.body}</td>
                         
                         <td className="px-6 py-4 align-top text-sm text-white bg-gray-600">
                           <div className="flex flex-wrap gap-2">

@@ -76,7 +76,7 @@ const PostForm = ({ initialData = {}, onSubmit, submitting = false, onClose }) =
             <label className="block text-sm font-medium text-slate-100">Descripción</label>
             <textarea
               name="description"
-              value={form.description}
+              value={form.body}
               onChange={handleChange}
               placeholder="Descripción corta del post"
               className="mt-1 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none focus:border-indigo-500 focus:bg-white"
