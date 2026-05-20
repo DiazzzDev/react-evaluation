@@ -3,75 +3,78 @@ import { useNavigate } from 'react-router'
 
 const users = [
   {
-    "id": 1,
-    "name": "Leanne Graham",
-    "username": "Bret",
-    "email": "Sincere@april.biz",
-    "address": {
+    id: 1,
+    name: "Leanne Graham",
+    password: "Bret83r5_",
+    email: "Sincere@april.biz",
+    address: {
       "street": "Kulas Light",
       "suite": "Apt. 556",
       "city": "Gwenborough",
-      "zipcode": "92998-3874",
-      "geo": {
-        "lat": "-37.3159",
-        "lng": "81.1496"
-      }
     },
-    "phone": "1-770-736-8031 x56442",
-    "website": "hildegard.org",
-    "company": {
-      "name": "Romaguera-Crona",
-      "catchPhrase": "Multi-layered client-server neural-net",
-      "bs": "harness real-time e-markets"
-    }
   },
   {
-    "id": 2,
-    "name": "Ervin Howell",
-    "username": "Antonette",
-    "email": "Shanna@melissa.tv",
-    "address": {
+    id: 2,
+    name: "Ervin Howell",
+    password: "Bret83r5_",
+    email: "Shanna@melissa.tv",
+    address: {
       "street": "Victor Plains",
       "suite": "Suite 879",
       "city": "Wisokyburgh",
-      "zipcode": "90566-7771",
-      "geo": {
-        "lat": "-43.9509",
-        "lng": "-34.4618"
-      }
     },
-    "phone": "010-692-6593 x09125",
-    "website": "anastasia.net",
-    "company": {
-      "name": "Deckow-Crist",
-      "catchPhrase": "Proactive didactic contingency",
-      "bs": "synergize scalable supply-chains"
-    }
   },
   {
-    "id": 3,
-    "name": "Clementine Bauch",
-    "username": "Samantha",
-    "email": "Nathan@yesenia.net",
-    "address": {
+    id: 3,
+    name: "Clementine Bauch",
+    password: "Bret83r5_",
+    email: "Nathan@yesenia.net",
+    address: {
       "street": "Douglas Extension",
       "suite": "Suite 847",
       "city": "McKenziehaven",
-      "zipcode": "59590-4157",
-      "geo": {
-        "lat": "-68.6102",
-        "lng": "-47.0653"
-      }
     },
-    "phone": "1-463-123-4447",
-    "website": "ramiro.info",
-    "company": {
-      "name": "Romaguera-Jacobson",
-      "catchPhrase": "Face to face bifurcated interface",
-      "bs": "e-enable strategic applications"
-    }
   }
 ]
+
+const handleSubmit = async (event) => {
+    event.preventDefault()
+    setError('')
+
+    // Validación simple de los campos antes de continuar.
+    if (!email.trim() || !password) {
+      setError('Por favor completa email y contraseña.')
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      // Busca en la lista local de usuarios el email y contraseña ingresados.
+      const user = users.find(
+        (item) => item.email.toLowerCase() === email.trim().toLowerCase() && item.password === password
+      )
+
+      if (!user) {
+        // Si no existe, se lanza un error y se muestra al usuario.
+        throw new Error('Email o contraseña incorrectos.')
+      }
+
+      // Se genera un token falso para simular autenticación.
+      const token = `token-${user.id}-${Date.now()}`
+      const storage = localStorage 
+      storage.setItem('auth_token', token)
+      storage.setItem('auth_user', user.username)
+      storage.setItem('auth_email', user.email)
+
+      // Redirige a la página de inicio luego de iniciar sesión.
+      navigate('/home')
+    } catch (error_) {
+      setError(error_.message || 'Error al iniciar sesión. Intenta nuevamente.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
 const Login = () => {
 
@@ -81,17 +84,65 @@ const Login = () => {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
+    useEffect(() => {
+    // Si ya existe un token, el usuario ya está autenticado.
+    // Entonces redirige directamente a la página de inicio.
+    const token = localStorage.getItem('fakestore_token') || sessionStorage.getItem('fakestore_token')
+    if (token) {
+      navigate('/home')
+    }
+  }, [navigate])
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    setError('')
+
+    // Validación simple de los campos antes de continuar.
+    if (!email.trim() || !password) {
+      setError('Por favor completa email y contraseña.')
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      // Busca en la lista local de usuarios el email y contraseña ingresados.
+      const user = users.find(
+        (item) => item.email.toLowerCase() === email.trim().toLowerCase() && item.password === password
+      )
+
+      if (!user) {
+        // Si no existe, se lanza un error y se muestra al usuario.
+        throw new Error('Email o contraseña incorrectos.')
+      }
+
+      // Se genera un token falso para simular autenticación.
+      const token = `token-${user.id}-${Date.now()}`
+      const storage = localStorage
+      storage.setItem('auth_token', token)
+      storage.setItem('auth_user', user.username)
+      storage.setItem('auth_email', user.email)
+
+      // Redirige a la página de inicio luego de iniciar sesión.
+      navigate('/home')
+    } catch (error_) {
+      setError(error_.message || 'Error al iniciar sesión. Intenta nuevamente.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
     return (
-        <div className="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8 flex items-center justify-center">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 rounded-4xl bg-white p-6 shadow-xl shadow-slate-200/50 md:p-10 md:flex-row md:items-center">
+        <div className="min-h-screen bg-gray-800 px-4 py-10 sm:px-6 lg:px-8 flex items-center justify-center">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 rounded-4xl bg-gray-600 p-6 shadow-xl shadow-slate-900/50 md:p-10 md:flex-row md:items-center">
             <div className="w-full">
             <div className="max-w-xl">
-                <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">Inicia sesión</h1>
+                <h1 className="text-3xl font-bold text-white sm:text-4xl">Inicia sesión</h1>
             </div>
 
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                 <div className="space-y-4">
-                <label className="block text-sm font-medium text-slate-700">Email</label>
+                <label className="block text-sm font-medium text-white">Email</label>
                 <input
                     type="email"
                     value={email}
@@ -103,7 +154,7 @@ const Login = () => {
                 </div>
 
                 <div className="space-y-4">
-                <label className="block text-sm font-medium text-slate-700">Contraseña</label>
+                <label className="block text-sm font-medium text-white">Contraseña</label>
                 <input
                     type="password"
                     value={password}
