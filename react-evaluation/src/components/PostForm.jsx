@@ -1,14 +1,13 @@
 import { useState, useEffect, useRef } from 'react' 
 
-const PostForm = ({ initialData = {}, onSubmit, submitting = false, onClose, categories = [] }) => {
+const PostForm = ({ initialData = {}, onSubmit, submitting = false, onClose }) => {
   const [form, setForm] = useState(() => ({
     title: '',
     price: '',
     description: '',
-    category: '',
     ...initialData
   }))
-  const isEditing = !!initialData?.id // Detecta si estamos editando un producto existente.
+  const isEditing = !!initialData?.id 
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -48,7 +47,7 @@ const PostForm = ({ initialData = {}, onSubmit, submitting = false, onClose, cat
       <div className="w-full max-w-2xl rounded-3xl bg-white p-6 shadow-lg ring-1 ring-slate-200">
         <div className="flex items-start justify-between">
           <h3 className="text-lg font-medium text-slate-900">
-            {isEditing ? 'Editar producto' : 'Nuevo producto'}
+            {isEditing ? 'Editar post' : 'Nuevo post'}
           </h3>
           <button
             type="button"
@@ -61,69 +60,28 @@ const PostForm = ({ initialData = {}, onSubmit, submitting = false, onClose, cat
         </div>
 
         <form className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2" onSubmit={handleSubmit}>
-          {/* Campo de título del producto. */}
           <div className="sm:col-span-2">
             <label className="block text-sm font-medium text-slate-700">Título</label>
             <input
               name="title"
               value={form.title}
               onChange={handleChange}
-              placeholder="Nombre del producto"
+              placeholder="Título del post"
               className="mt-1 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none focus:border-indigo-500 focus:bg-white"
               required
             />
           </div>
 
-          {/* Campo de precio. */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700">Precio</label>
-            <input
-              name="price"
-              type="number"
-              step="0.01"
-              value={form.price}
-              onChange={handleChange}
-              placeholder="0.00"
-              className="mt-1 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none focus:border-indigo-500 focus:bg-white"
-              required
-            />
-          </div>
-
-          {/* Campo de descripción. */}
           <div className="sm:col-span-2">
             <label className="block text-sm font-medium text-slate-700">Descripción</label>
             <textarea
               name="description"
               value={form.description}
               onChange={handleChange}
-              placeholder="Descripción corta del producto"
+              placeholder="Descripción corta del post"
               className="mt-1 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none focus:border-indigo-500 focus:bg-white"
               rows={3}
             />
-          </div>
-
-          {/* Selector de categoría con opciones cargadas desde la API. */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700">Categoría</label>
-            <select
-              name="category"
-              value={form.category}
-              onChange={handleChange}
-              className="mt-1 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none focus:border-indigo-500 focus:bg-white"
-              required
-            >
-              <option value="" disabled>
-                {categories.length ? 'Selecciona una categoría' : 'Cargando categorías...'}
-              </option>
-              {form.category && !categories.includes(form.category) && (
-                <option value={form.category}>{form.category}</option>
-              )}
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
           </div>
 
           <div className="sm:col-span-2">
@@ -141,7 +99,7 @@ const PostForm = ({ initialData = {}, onSubmit, submitting = false, onClose, cat
                 disabled={submitting}
                 className="rounded-2xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-slate-400"
               >
-                {submitting ? 'Guardando...' : isEditing ? 'Actualizar producto' : 'Guardar producto'}
+                {submitting ? 'Guardando...' : isEditing ? 'Actualizar' : 'Guardar'}
               </button>
             </div>
           </div>

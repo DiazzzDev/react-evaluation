@@ -81,7 +81,7 @@ const Posts = () => {
   }
 
   const handleUpdatePost = async (formData) => {
-    setPosttError('')
+    setPostError('')
     setPostSuccess('')
     setPostSubmitting(true)
 
