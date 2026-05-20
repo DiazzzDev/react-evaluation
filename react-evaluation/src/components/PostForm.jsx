@@ -44,9 +44,9 @@ const PostForm = ({ initialData = {}, onSubmit, submitting = false, onClose }) =
       aria-modal="true"
       role="dialog"
     >
-      <div className="w-full max-w-2xl rounded-3xl bg-white p-6 shadow-lg ring-1 ring-slate-200">
+      <div className="w-full max-w-2xl rounded-3xl bg-gray-600 p-6 shadow-lg">
         <div className="flex items-start justify-between">
-          <h3 className="text-lg font-medium text-slate-900">
+          <h3 className="text-lg font-medium text-slate-100">
             {isEditing ? 'Editar post' : 'Nuevo post'}
           </h3>
           <button
@@ -61,7 +61,7 @@ const PostForm = ({ initialData = {}, onSubmit, submitting = false, onClose }) =
 
         <form className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2" onSubmit={handleSubmit}>
           <div className="sm:col-span-2">
-            <label className="block text-sm font-medium text-slate-700">Título</label>
+            <label className="block text-sm font-medium text-slate-100">Título</label>
             <input
               name="title"
               value={form.title}
@@ -73,7 +73,7 @@ const PostForm = ({ initialData = {}, onSubmit, submitting = false, onClose }) =
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block text-sm font-medium text-slate-700">Descripción</label>
+            <label className="block text-sm font-medium text-slate-100">Descripción</label>
             <textarea
               name="description"
               value={form.description}

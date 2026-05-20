@@ -206,14 +206,14 @@ const Posts = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-gray-800">
       {token && <Nav />}
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-6 space-y-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h1 className="text-3xl font-semibold text-slate-900">Posts</h1>
+              <h1 className="text-3xl font-semibold text-slate-100">Posts</h1>
             </div>
             <div className="flex items-center gap-4">
               <div>
@@ -255,41 +255,41 @@ const Posts = () => {
           onCancel={cancelDeletePosts}
         />
 
-        <div className="overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-slate-200">
-          <div className="border-b border-slate-200 px-6 py-4 bg-slate-100">
-            <h2 className="text-lg font-medium text-slate-900">Posts</h2>
+        <div className="overflow-hidden rounded-3xl bg-gray-600 shadow-lg ring-1 ring-gray-600">
+          <div className="border-b border-gray-600 px-6 py-4 bg-gray-600">
+            <h2 className="text-lg font-medium text-gray-100">Posts</h2>
           </div>
 
           <div className="p-4">
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 text-left">
-                  <thead className="bg-slate-50">
+                <table className="min-w-full divide-y divide-gray-600 text-left">
+                  <thead className="bg-gray-600">
                     <tr>
-                      <th className="px-6 py-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Título</th>
-                      <th className="px-6 py-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Descripción</th>
-                      <th className="px-6 py-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Acciones</th>
+                      <th className="px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white">Título</th>
+                      <th className="px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white">Descripción</th>
+                      <th className="px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white">Acciones</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-200 bg-white">
+                  <tbody className="divide-y divide-gray-800 bg-white">
                     {posts.map((post) => (
                       <tr key={post.id} className="hover:bg-slate-50">
-                        <td className="px-6 py-4 align-top text-sm text-slate-700 max-w-xl wrap-break-word">{post.title}</td>
-                        <td className="px-6 py-4 align-top text-sm text-slate-600 max-w-2xl wrap-break-word">{post.description}</td>
+                        <td className="px-6 py-4 align-top text-sm text-white max-w-xl wrap-break-word bg-gray-600">{post.title}</td>
+                        <td className="px-6 py-4 align-top text-sm text-white max-w-2xl wrap-break-word bg-gray-600">{post.description}</td>
                         
-                        <td className="px-6 py-4 align-top text-sm text-slate-700">
+                        <td className="px-6 py-4 align-top text-sm text-white bg-gray-600">
                           <div className="flex flex-wrap gap-2">
                             <button
                               type="button"
                               onClick={() => handleEditPost(post.id)}
                               disabled={loadingPostDetail}
-                              className="rounded-full w-full bg-blue-600 px-3 py-1 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400"
+                              className="rounded-full w-full bg-indigo-700 px-3 py-1 text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-400"
                             >
                               Editar 
                             </button>
                             <button
                               type="button"
                               onClick={() => handleDeletePost(post.id)}
-                              className="rounded-full w-full bg-red-600 px-3 py-1 text-white transition hover:bg-red-700"
+                              className="rounded-full w-full bg-red-700 px-3 py-1 text-white transition hover:bg-red-800"
                             >
                               Eliminar 
                             </button>
