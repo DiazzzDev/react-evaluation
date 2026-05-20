@@ -5,6 +5,7 @@ const users = [
   {
     id: 1,
     name: "Leanne Graham",
+    username: "Bill",
     password: "Bret83r5_",
     email: "Sincere@april.biz",
     address: {
@@ -16,6 +17,7 @@ const users = [
   {
     id: 2,
     name: "Ervin Howell",
+    username: "Marmol",
     password: "Bret83r5_",
     email: "Shanna@melissa.tv",
     address: {
@@ -27,6 +29,7 @@ const users = [
   {
     id: 3,
     name: "Clementine Bauch",
+    username: "Eliseo",
     password: "Bret83r5_",
     email: "Nathan@yesenia.net",
     address: {

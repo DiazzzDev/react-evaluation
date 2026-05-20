@@ -30,7 +30,7 @@ const Posts = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const navigate = useNavigate()
-  const token = localStorage.getItem('fakestore_token') || sessionStorage.getItem('fakestore_token')
+  const token = localStorage.getItem('auth_token')
 
   useEffect(() => {
     if (!token) {
@@ -41,40 +41,40 @@ const Posts = () => {
     const fetchPosts = async () => {
       try {
         const data = await response.json()
-        setPosts(data.map((product) => ({ ...product, source: 'api' })))
+        setPosts(data.map((post) => ({ ...post, source: 'api' })))
       } catch (err) {
-        setError(err.message || 'No se pudieron cargar los productos')
+        setError(err.message || 'No se pudieron cargar los posts')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchProducts()
+    fetchPosts()
   }, [navigate, token])
 
-  const handleEditProduct = async (productId) => {
-    setProductError('')
-    setLoadingProductDetail(true)
+  const handleEditPost = async (postId) => {
+    setPostError('')
+    setLoadingPostDetail(true)
 
-    const localProduct = products.find((product) => product.id === productId)
-    if (localProduct) {
-      setEditingPost(localProduct)
+    const localPost = posts.find((post) => post.id === postId)
+    if (localPost) {
+      setEditingPost(localPost)
       setShowPostForm(true)
       setLoadingPostDetail(false)
       return
     }
 
     try {
-      const response = await fetch(`https://fakestoreapi.com/products/${productId}`)
+      const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
       if (!response.ok) {
-        throw new Error('Error al cargar el producto')
+        throw new Error('Error al cargar el post')
       }
 
       const data = await response.json()
       setEditingPost({ ...data, source: 'api' })
       setShowPostForm(true)
     } catch (err) {
-      setPostError(err.message || 'No se pudo cargar el producto')
+      setPostError(err.message || 'No se pudo cargar el post')
     } finally {
       setLoadingPostDetail(false)
     }
@@ -88,20 +88,19 @@ const Posts = () => {
     const isLocalPost = editingPost?.source !== 'api'
 
     try {
-      if (isLocalProduct) {
-        // Actualiza directamente el producto local sin llamar a la API.
+      if (isLocalPost) {
         setPosts((prev) =>
           prev.map((p) =>
-            p.id === editingProduct.id ? { ...p, ...formData, source: p.source || 'local' } : p
+            p.id === editingPost.id ? { ...p, ...formData, source: p.source || 'local' } : p
           )
         )
-        setProductSuccess('Producto actualizado correctamente.')
+        setPostSuccess('Post actualizado correctamente.')
         setShowPostForm(false)
-        setEditingProduct(null)
+        setEditingPost(null)
         return
       }
 
-      const response = await fetch(`https://fakestoreapi.com/products/${editingProduct.id}`, {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${editingPost.id}`, {
       })
 
       if (!response.ok) {
@@ -110,16 +109,16 @@ const Posts = () => {
       }
 
       const data = await response.json()
-      setProducts((prev) =>
-        prev.map((p) => (p.id === editingProduct.id ? { ...data, source: 'api' } : p))
+      setPosts((prev) =>
+        prev.map((p) => (p.id === editingPost.id ? { ...data, source: 'api' } : p))
       )
-      setPostSuccess('Producto actualizado correctamente.')
+      setPostSuccess('Post actualizado correctamente.')
       setShowPostForm(false)
       setEditingPost(null)
     } catch (err) {
-      setProductError(err.message || 'No se pudo actualizar el post')
+      setPostError(err.message || 'No se pudo actualizar el post')
     } finally {
-      setProductSubmitting(false)
+      setPostSubmitting(false)
     }
   }
 
@@ -128,7 +127,7 @@ const Posts = () => {
     setShowDeleteConfirm(true)
   }
 
-  const confirmDeletePost = async () => {
+  const confirmDeletePosts = async () => {
     if (!postToDelete) return
 
     setPostError('')
@@ -136,15 +135,15 @@ const Posts = () => {
     setShowDeleteConfirm(false)
 
     try {
-      const post = post.find((p) => p.id === productToDelete)
+      const post = post.find((p) => p.id === postToDelete)
       if (post?.source !== 'api') {
-        setPosts((prev) => prev.filter((p) => p.id !== productToDelete))
+        setPosts((prev) => prev.filter((p) => p.id !== postToDelete))
         setPostSuccess('Post eliminado correctamente.')
         setPostToDelete(null)
         return
       }
 
-      const response = await fetch(`https://fakestoreapi.com/products/${productToDelete}`, {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postToDelete}`, {
         method: 'DELETE'
       })
 
@@ -153,18 +152,18 @@ const Posts = () => {
         throw new Error(text || 'Error eliminando post')
       }
 
-      setProducts((prev) => prev.filter((p) => p.id !== productToDelete))
-      setPostSuccess('Producto eliminado correctamente.')
-      setProductToDelete(null)
+      setPosts((prev) => prev.filter((p) => p.id !== postToDelete))
+      setPostSuccess('Post eliminado correctamente.')
+      setPostToDelete(null)
     } catch (err) {
       setPostError(err.message || 'No se pudo eliminar el post')
-      setProductToDelete(null)
+      setPostToDelete(null)
     }
   }
 
   const cancelDeletePosts = () => {
     setShowDeleteConfirm(false)
-    setProductToDelete(null)
+    setPostToDelete(null)
   }
 
   const [showPostForm, setShowPostForm] = useState(false)
@@ -176,13 +175,13 @@ const Posts = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [postToDelete, setPostToDelete] = useState(null)
 
-  const handleCreateProduct = async (formData) => {
+  const handleCreatePost = async (formData) => {
     setPostError('')
     setPostSuccess('')
     setPostSubmitting(true)
 
     try {
-      const response = await fetch('https://fakestoreapi.com/products', {
+      const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -190,7 +189,7 @@ const Posts = () => {
 
       if (!response.ok) {
         const text = await response.text()
-        throw new Error(text || 'Error creando producto')
+        throw new Error(text || 'Error creando post')
       }
 
       const data = await response.json()
@@ -238,7 +237,6 @@ const Posts = () => {
         {showPostForm && (
           <PostForm
             initialData={editingPost || {}}
-            categories={categories}
             onSubmit={editingPost ? handleUpdatePost : handleCreatePost}
             submitting={postSubmitting || loadingPostDetail}
             onClose={() => {
@@ -273,7 +271,7 @@ const Posts = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200 bg-white">
-                    {currentPosts.map((post) => (
+                    {posts.map((post) => (
                       <tr key={post.id} className="hover:bg-slate-50">
                         <td className="px-6 py-4 align-top text-sm text-slate-700 max-w-xl wrap-break-word">{post.title}</td>
                         <td className="px-6 py-4 align-top text-sm text-slate-600 max-w-2xl wrap-break-word">{post.description}</td>
@@ -282,15 +280,15 @@ const Posts = () => {
                           <div className="flex flex-wrap gap-2">
                             <button
                               type="button"
-                              onClick={() => handleEditProduct(post.id)}
-                              disabled={loadingProductDetail}
+                              onClick={() => handleEditPost(post.id)}
+                              disabled={loadingPostDetail}
                               className="rounded-full w-full bg-blue-600 px-3 py-1 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400"
                             >
                               Editar 
                             </button>
                             <button
                               type="button"
-                              onClick={() => handleDeleteProduct(post.id)}
+                              onClick={() => handleDeletePost(post.id)}
                               className="rounded-full w-full bg-red-600 px-3 py-1 text-white transition hover:bg-red-700"
                             >
                               Eliminar 
